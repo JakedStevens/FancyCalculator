@@ -6,7 +6,7 @@ namespace FancyCalculator
 	{
 		static void Main(string[] args)
 		{
-
+			#region Step 2
 			Console.WriteLine("Enter a number");
 			string firstValue = Console.ReadLine();
 			decimal firstNum;
@@ -31,9 +31,9 @@ namespace FancyCalculator
 
 			decimal result = firstNum + secondNum;
 			Console.WriteLine($"Result: {result}");
+			#endregion
 
 
-			Console.WriteLine("End");
 		}
 	}
 }
