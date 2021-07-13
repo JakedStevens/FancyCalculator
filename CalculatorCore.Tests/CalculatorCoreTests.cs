@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace CalculatorCore.Tests
 {
@@ -58,6 +59,13 @@ namespace CalculatorCore.Tests
             var result = _calc.Evaluate("7 + hello");
             Assert.AreEqual("The second number, 'hello', was not a valid number.", result.ErrorMessage);
         }
+
+        [TestMethod]
+        public void ValidateOperator()
+        {
+            var result = _calc.Evaluate("7 plus 8");
+            Assert.AreEqual("'plus' is not a valid operator please use of of these: '+', '-', '*', '/'", result.ErrorMessage);
+		}
 
     }
 }

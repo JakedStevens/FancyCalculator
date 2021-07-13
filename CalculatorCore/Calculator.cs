@@ -21,7 +21,7 @@ namespace CalculatorCore
             }
             if (decimal.TryParse(expressionBits[2], out secondOperand) == false)
             {
-                return new EvaluationResult { ErrorMessage = $"\u001b[35mThe second number, '{expressionBits[2]}', was not a valid number.\u001b[0m" };
+                return new EvaluationResult { ErrorMessage = $"The second number, '{expressionBits[2]}', was not a valid number." };
             }
 
             string op = expressionBits[1];
@@ -42,8 +42,8 @@ namespace CalculatorCore
                     result = firstOperand / secondOperand;
                     break;
                 default:
-                    throw new NotImplementedException($"The operator {op} was used and is invalid.");
-			}
+                    return new EvaluationResult { ErrorMessage = $"'{op}' is not a valid operator please use of of these: '+', '-', '*', '/'" };
+            }
 
             return new EvaluationResult { Result = result };
         }
