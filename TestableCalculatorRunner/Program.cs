@@ -9,18 +9,28 @@ namespace TestableCalculatorRunner
 		{
 			var calculator = new Calculator();
 
-			Console.WriteLine("\u001b[35mEnter two numbers and a '+' or '-' operator inbetween ex: '1 + 1'\u001b[0m");
+			bool keepGoing = true;
 
-			string input = Console.ReadLine();
-			var output = calculator.Evaluate(input);
+			while(keepGoing)
+			{
+				Console.WriteLine("\u001b[35mEnter an expression to evaluate. ex: '1 + 1' OR type 'exit' to quit\u001b[0m");
 
-			if (String.IsNullOrWhiteSpace(output.ErrorMessage))
-			{
-				Console.WriteLine(output.ErrorMessage);
-			}
-			else
-			{
-				Console.WriteLine(output.Result);
+				string input = Console.ReadLine();
+				if (input == "exit")
+				{
+					keepGoing = false;
+					break;
+				}
+				var output = calculator.Evaluate(input);
+
+				if (!String.IsNullOrWhiteSpace(output.ErrorMessage))
+				{
+					Console.WriteLine(output.ErrorMessage);
+				}
+				else
+				{
+					Console.WriteLine($"Result: {output.Result}");
+				}
 			}
 			
 		}
