@@ -10,24 +10,57 @@ namespace CalculatorCore
     {
         public EvaluationResult Evaluate(string input)
         {
-            string[] expressionBits = input.Split(" ");
+            Expression expression = new Expression();
+            string[] expressionBits;
 
+            if (input.Contains("+"))
+			{
+                expressionBits = input.Split("+");
+                expression.FirstValue = expressionBits[0].Trim(' ');
+                expression.SecondValue = expressionBits[1].Trim(' ');
+                expression.Operator = "+";
+            }
+            else if (input.Contains("-"))
+			{
+                expressionBits = input.Split("-");
+                expression.FirstValue = expressionBits[0].Trim(' ');
+                expression.SecondValue = expressionBits[1].Trim(' ');
+                expression.Operator = "-";
+            }
+            else if (input.Contains("*"))
+            {
+                expressionBits = input.Split("*");
+                expression.FirstValue = expressionBits[0].Trim(' ');
+                expression.SecondValue = expressionBits[1].Trim(' ');
+                expression.Operator = "*";
+            }
+            else
+            {
+                expressionBits = input.Split("/");
+                expression.FirstValue = expressionBits[0].Trim(' ');
+                expression.SecondValue = expressionBits[1].Trim(' ');
+                expression.Operator = "/";
+            }
+            
             decimal firstOperand;
             decimal secondOperand;
-
-            if (decimal.TryParse(expressionBits[0], out firstOperand) == false)
+            if (expressionBits.Length != 2)
             {
-                return new EvaluationResult { ErrorMessage = $"The first number, '{expressionBits[0]}', was not a valid number." };
+                return new EvaluationResult { ErrorMessage = $"\u001b[31mYour entry was invalid, two numbers with an operator inbetween them are required ex: 1 + 1\u001b[0m" };
             }
-            if (decimal.TryParse(expressionBits[2], out secondOperand) == false)
+            if (decimal.TryParse(expression.FirstValue, out firstOperand) == false)
             {
-                return new EvaluationResult { ErrorMessage = $"The second number, '{expressionBits[2]}', was not a valid number." };
+                return new EvaluationResult { ErrorMessage = $"\u001b[31mThe first number, '{expression.FirstValue}', was not a valid number.\u001b[0m" };
             }
+            if (decimal.TryParse(expression.SecondValue, out secondOperand) == false)
+            {
+                return new EvaluationResult { ErrorMessage = $"\u001b[31mThe second number, '{expression.SecondValue}', was not a valid number.\u001b[0m" };
+            }
+            expression.FirstNumber = firstOperand;
+            expression.SecondNumber = secondOperand;
 
-            string op = expressionBits[1];
             decimal result;
-
-            switch (op)
+            switch (expression.Operator)
 			{
                 case "+":
                     result = firstOperand + secondOperand;
@@ -42,9 +75,8 @@ namespace CalculatorCore
                     result = firstOperand / secondOperand;
                     break;
                 default:
-                    return new EvaluationResult { ErrorMessage = $"'{op}' is not a valid operator please use of of these: '+', '-', '*', '/'" };
+                    return new EvaluationResult { ErrorMessage = $"\u001b[31m'{expression.Operator}' is not a valid operator please use of of these: '+', '-', '*', '/'\u001b[0m" };
             }
-
             return new EvaluationResult { Result = result };
         }
     }

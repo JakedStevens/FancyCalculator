@@ -8,12 +8,17 @@ namespace TestableCalculatorRunner
 		static void Main(string[] args)
 		{
 			var calculator = new Calculator();
-
 			bool keepGoing = true;
+			EvaluationResult output;
+			decimal prevResult = 0;
 
 			while(keepGoing)
 			{
-				Console.WriteLine("\u001b[35mEnter an expression to evaluate. ex: '1 + 1' OR type 'exit' to quit\u001b[0m");
+				if (prevResult != 0)
+				{
+					Console.WriteLine(prevResult);
+				}
+				Console.WriteLine("Enter an expression to evaluate. ex: '1 + 1' OR type 'exit' to quit");
 
 				string input = Console.ReadLine();
 				if (input == "exit")
@@ -21,7 +26,7 @@ namespace TestableCalculatorRunner
 					keepGoing = false;
 					break;
 				}
-				var output = calculator.Evaluate(input);
+				output = calculator.Evaluate(input);
 
 				if (!String.IsNullOrWhiteSpace(output.ErrorMessage))
 				{
@@ -29,7 +34,8 @@ namespace TestableCalculatorRunner
 				}
 				else
 				{
-					Console.WriteLine($"Result: {output.Result}");
+					prevResult = output.Result;
+					Console.WriteLine($"\u001b[32mResult: {output.Result}\u001b[0m");
 				}
 			}
 			
