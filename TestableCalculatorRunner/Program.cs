@@ -14,19 +14,23 @@ namespace TestableCalculatorRunner
 
 			while(keepGoing)
 			{
-				if (prevResult != 0)
-				{
-					Console.WriteLine(prevResult);
-				}
 				Console.WriteLine("Enter an expression to evaluate. ex: '1 + 1' OR type 'exit' to quit");
-
 				string input = Console.ReadLine();
+
 				if (input == "exit")
 				{
 					keepGoing = false;
 					break;
 				}
-				output = calculator.Evaluate(input);
+
+				if (prevResult != 0)
+				{
+					output = calculator.Evaluate(input, true, prevResult);
+				}
+				else
+				{
+					output = calculator.Evaluate(input, false, prevResult);
+				}
 
 				if (!String.IsNullOrWhiteSpace(output.ErrorMessage))
 				{

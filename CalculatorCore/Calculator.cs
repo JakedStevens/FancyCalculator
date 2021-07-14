@@ -8,7 +8,7 @@ namespace CalculatorCore
 {
     public class Calculator
     {
-        public EvaluationResult Evaluate(string input)
+        public EvaluationResult Evaluate(string input, bool shouldUsePrevVal, decimal prevResult)
         {
             Expression expression = new Expression();
             string[] expressionBits;
@@ -48,11 +48,11 @@ namespace CalculatorCore
             {
                 return new EvaluationResult { ErrorMessage = $"\u001b[31mYour entry was invalid, two numbers with an operator inbetween them are required ex: 1 + 1\u001b[0m" };
             }
-            if (decimal.TryParse(expression.FirstValue, out firstOperand) == false)
+            if ((decimal.TryParse(expression.FirstValue, out firstOperand) == false) && shouldUsePrevVal == false)
             {
                 return new EvaluationResult { ErrorMessage = $"\u001b[31mThe first number, '{expression.FirstValue}', was not a valid number.\u001b[0m" };
             }
-            if (decimal.TryParse(expression.SecondValue, out secondOperand) == false)
+            if ((decimal.TryParse(expression.SecondValue, out secondOperand) == false) && shouldUsePrevVal == false)
             {
                 return new EvaluationResult { ErrorMessage = $"\u001b[31mThe second number, '{expression.SecondValue}', was not a valid number.\u001b[0m" };
             }
@@ -63,20 +63,21 @@ namespace CalculatorCore
             switch (expression.Operator)
 			{
                 case "+":
-                    result = firstOperand + secondOperand;
+                    result = shouldUsePrevVal ? prevResult + secondOperand : firstOperand + secondOperand;
                     break;
                 case "-":
-                    result = firstOperand - secondOperand;
+                    result = shouldUsePrevVal ? prevResult - secondOperand : firstOperand - secondOperand;
                     break;
                 case "*":
-                    result = firstOperand * secondOperand;
+                    result = shouldUsePrevVal ? prevResult * secondOperand : firstOperand * secondOperand;
                     break;
                 case "/":
-                    result = firstOperand / secondOperand;
+                    result = shouldUsePrevVal ? prevResult / secondOperand : firstOperand / secondOperand;
                     break;
                 default:
                     return new EvaluationResult { ErrorMessage = $"\u001b[31m'{expression.Operator}' is not a valid operator please use of of these: '+', '-', '*', '/'\u001b[0m" };
             }
+
             return new EvaluationResult { Result = result };
         }
     }
