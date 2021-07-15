@@ -26,10 +26,10 @@ namespace TestableCalculatorRunner
 					{
 						if (String.IsNullOrWhiteSpace(evaluationResult.ErrorMessage))
 						{
-							Console.WriteLine(
-								$"\u001b[95m{evaluationResult.Expression.FirstValue}" +
-								$" {evaluationResult.Expression.Operator}" +
-								$" {evaluationResult.Expression.SecondValue}" +
+							Console.WriteLine("{0,10:N1} {1,10} {2,10:N1} {3,10:N1}",
+								$"\u001b[95m{evaluationResult.Expression.FirstValue}",
+								$" {evaluationResult.Expression.Operator}",
+								$" {evaluationResult.Expression.SecondValue}",
 								$" = {evaluationResult.Result}\u001b[0m"
 							);
 						}
