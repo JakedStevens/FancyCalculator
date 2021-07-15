@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace CalculatorCore
 {
-	class Expression
+	public class Expression
 	{
 		public string FirstValue { get; set; }
 		public string SecondValue { get; set; }
 		public decimal FirstNumber { get; set; }
 		public decimal SecondNumber { get; set; }
 		public string Operator { get; set; }
+		public bool ContinueLastOperation { get; set; }
+		public bool ExpressionHasError { get; set; }
+		public string ErrorMessage { get; set; }
 	}
 }

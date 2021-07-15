@@ -7,30 +7,20 @@ namespace TestableCalculatorRunner
 	{
 		static void Main(string[] args)
 		{
-			var calculator = new Calculator();
-			bool keepGoing = true;
-			EvaluationResult output;
+			Calculator calculator = new Calculator();
+			ParseExpression parseExpression = new ParseExpression();
 			decimal prevResult = 0;
 
-			while(keepGoing)
+			while(true)
 			{
 				Console.WriteLine("Enter an expression to evaluate. ex: '1 + 1' OR type 'exit' to quit");
+
 				string input = Console.ReadLine();
+				if (input == "exit") { break; }
 
-				if (input == "exit")
-				{
-					keepGoing = false;
-					break;
-				}
+				Expression parsedExpression = parseExpression.ParseUserInput(input);
+				EvaluationResult output = calculator.Evaluate(parsedExpression, prevResult);
 
-				if (prevResult != 0)
-				{
-					output = calculator.Evaluate(input, true, prevResult);
-				}
-				else
-				{
-					output = calculator.Evaluate(input, false, prevResult);
-				}
 
 				if (!String.IsNullOrWhiteSpace(output.ErrorMessage))
 				{
