@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CalculatorCore;
 
 namespace TestableCalculatorRunner
@@ -10,7 +11,8 @@ namespace TestableCalculatorRunner
 		{
 			Calculator calculator = new Calculator();
 			ParseExpression parseExpression = new ParseExpression();
-			List<EvaluationResult> history = new List<EvaluationResult>();
+			List<EvaluationResult> historyList = new List<EvaluationResult>();
+			History history = new History();
 			decimal prevResult = 0;
 
 			while (true)
@@ -19,21 +21,9 @@ namespace TestableCalculatorRunner
 				string input = Console.ReadLine();
 
 				if (input.ToLower() == "exit") { break; }
-				if (input.ToLower() == "history")
+				if (input.ToLower().Contains("history"))
 				{
-					Console.WriteLine("\u001b[36mHistory of Valid Evaluations\u001b[0m");
-					history.ForEach(evaluationResult =>
-					{
-						if (String.IsNullOrWhiteSpace(evaluationResult.ErrorMessage))
-						{
-							Console.WriteLine("{0,10:N1} {1,10} {2,10:N1} {3,10:N1}",
-								$"\u001b[95m{evaluationResult.Expression.FirstValue}",
-								$" {evaluationResult.Expression.Operator}",
-								$" {evaluationResult.Expression.SecondValue}",
-								$" = {evaluationResult.Result}\u001b[0m"
-							);
-						}
-					});
+					history.GetHistory(historyList, input);
 				}
 				else
 				{
@@ -41,7 +31,7 @@ namespace TestableCalculatorRunner
 					if (String.IsNullOrWhiteSpace(parsedExpression.ErrorMessage))
 					{
 						EvaluationResult output = calculator.Evaluate(parsedExpression, prevResult);
-						history.Add(output);
+						historyList.Add(output);
 
 						if (!String.IsNullOrWhiteSpace(output.ErrorMessage))
 						{
