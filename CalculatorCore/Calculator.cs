@@ -42,7 +42,7 @@ namespace CalculatorCore
 					return new EvaluationResult { ErrorMessage = $"\u001b[31m'{expression.Operator}' is not a valid operator please use of of these: '+', '-', '*', '/'\u001b[0m" };
 			}
 
-			return new EvaluationResult { Result = result, Expression = expression };
+			return new EvaluationResult { Result = result, Expression = expression, PreviousResult = prevResult };
 		}
 	}
 }

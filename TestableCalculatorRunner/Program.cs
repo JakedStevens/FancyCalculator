@@ -21,10 +21,7 @@ namespace TestableCalculatorRunner
 				string input = Console.ReadLine();
 
 				if (input.ToLower() == "exit") { break; }
-				if (input.ToLower().Contains("history"))
-				{
-					history.GetHistory(historyList, input);
-				}
+				else if (input.ToLower().Contains("history")) { history.PrintHistory(historyList, input); }
 				else
 				{
 					Expression parsedExpression = parseExpression.ParseUserInput(input);

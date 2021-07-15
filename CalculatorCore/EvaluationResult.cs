@@ -9,6 +9,7 @@ namespace CalculatorCore
 	public class EvaluationResult
 	{
 		public decimal Result { get; set; }
+		public decimal PreviousResult { get; set; }
 		public string ErrorMessage { get; set; }
 		public Expression Expression { get; set; }
 	}
