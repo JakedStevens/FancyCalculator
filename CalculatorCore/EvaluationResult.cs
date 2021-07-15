@@ -10,7 +10,6 @@ namespace CalculatorCore
 	{
 		public decimal Result { get; set; }
 		public string ErrorMessage { get; set; }
-		//  \u001b[31m
-		//  \u001b[0m
+		public Expression Expression { get; set; }
 	}
 }

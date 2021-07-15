@@ -10,6 +10,8 @@ namespace CalculatorCore
     {
 		public EvaluationResult Evaluate(Expression expression, decimal prevResult)
 		{
+			//return new EvaluationResult { ErrorMessage = $"\u001b[31mYour entry was invalid, two numbers with an operator inbetween them are required ex: 1 + 1\u001b[0m" };
+			//if () { }
 			if ((decimal.TryParse(expression.FirstValue, out decimal firstOperand) == false) && expression.ContinueLastOperation == false)
 			{
 				return new EvaluationResult { ErrorMessage = $"\u001b[31mThe first number, '{expression.FirstValue}', was not a valid number.\u001b[0m" };
@@ -40,7 +42,7 @@ namespace CalculatorCore
 					return new EvaluationResult { ErrorMessage = $"\u001b[31m'{expression.Operator}' is not a valid operator please use of of these: '+', '-', '*', '/'\u001b[0m" };
 			}
 
-			return new EvaluationResult { Result = result };
+			return new EvaluationResult { Result = result, Expression = expression };
 		}
 	}
 }
